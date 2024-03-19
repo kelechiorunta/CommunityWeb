@@ -2,7 +2,7 @@ import './App.css';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import ArticleContainer from './Components/ArticleContainer';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect} from 'react';
 import { RatioContext } from './Components/RatioContext';
 import { IdContext } from './Components/IdContext';
 import { articles} from './Modules/articles';
@@ -12,7 +12,11 @@ import Projects from './Components/Projects';
 import Slider from './Components/Slider';
 import { slides } from './Modules/slides';
 import { SlideContext } from './Components/SlideContext';
-// import { Button } from '@react-ui-org/react-ui'
+// import '@react-ui-org/react-ui/dist/react-ui.css';
+import { Button } from '@react-ui-org/react-ui';
+import { Toggle } from '@react-ui-org/react-ui';
+import { TextField } from '@react-ui-org/react-ui';
+
 
 function App() {
   const [toggle, setToggle] = useState(false)
@@ -20,11 +24,11 @@ function App() {
   const [animCharacter, setAnimCharacter] = useState("")
   const [n, setN] = useState(0)
   const [scrollY, setScrollY] = useState(window.scrollY);
-  const [imageid, setImageId] = useState(0);
-  const [imageidx, setImageIdx] = useState(0);
+  
   const [slidepics, setSlidepics] = useState(slides)
   const [picid, setPicId] = useState(0)
   const [slideleft, setSlideLeft] = useState(false)
+  const [sliderWidth, setSliderWidth] = useState(200)
 
   function filterlist(selectedtitleId){
     const filteredlist = [...articles].filter(i=>{
@@ -77,12 +81,19 @@ function App() {
       window.removeEventListener('scroll', handleScroll);
     };
     }, [scrollY]); // Empty dependency array ensures the effect runs only once on mount
+
+    // useEffect(()=>{
+    //   const sliderContainerWidth = document.querySelector('.slide_item').clientWidth
+
+    //   setSliderWidth(sliderContainerWidth)
+
+    // },[sliderWidth, slidepics])
   
     const AddSlide = (id_slide) =>{ 
       
       setSlideLeft(false)
-         setSlidepics(prev=>([...[...prev].filter(i=>{return i.pic !== slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}), {id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}]))
-        //setSlidepics(prev=>([...prev, {id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}]))
+        // setSlidepics(prev=>([...[...prev].filter(i=>{return i.pic !== slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}), {id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}]))
+        setSlidepics(prev=>([...prev, {id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide % (slides.length)) : id_slide].pic}]))
   
       console.log(slidepics)
     }
@@ -99,11 +110,15 @@ function App() {
       
     }
     
-    const updateSlide = (id_slide) =>{
+    const updateSlide = (mySlide, bool, item) =>{
       
       // const modifySlide = mySlide.filter(i=>{
       //   return (i.id !== id_slide)
       // })
+
+      // ((toggle===false) && (e.target.id <= slide.id-5))
+
+      setSlidepics(prev=>([...prev, ...mySlide.filter(i=>{return ((bool===false) && (item <= i.id - 5))})]))
 
       // setSlidepics([...modifySlide])
       //  AddSlide(id_slide)
@@ -124,7 +139,7 @@ function App() {
     }
 
   return (
-    <div className="App">
+    <div className="App example example--themed-form-field-sizes mt-6">
       <Header/>
       <RatioContext.Provider value={viewportWidth}>
         <IdContext.Provider value={searchlist}>
@@ -141,15 +156,20 @@ function App() {
         <nav className='navSliderBtns'>
           <legend className='gallery_legend'><h2 className='gallery_title'>Gallery</h2></legend>
           <button className='remove' onClick={()=>{(picid >=1 ) && setPicId(n=>n-1); RemoveSlide(picid % slides.length+1)}}>PREVIOUS</button>
-          <button className='add' onClick={()=>{setPicId(n=>n+1); AddSlide(picid % slides.length+1)}}>NEXT</button>
+          <button className='add' onClick={()=>{setPicId(n=>n+1); AddSlide(picid)}}>NEXT</button>
         </nav>
         <SlideContext.Provider value={slidepics}>
-          <Slider imageno={picid % slides.length+1} slideUpdate={updateSlide} toggle={slideleft}/>
+          <Slider imageno={picid} slideUpdate={updateSlide} toggle={slideleft} slide_width={sliderWidth}/>
         </SlideContext.Provider>
         {`Length is: ${picid % slides.length+1}`}
        
       </div>
-      <legend>Great day</legend>
+      
+      {/* <div > */}
+        <TextField label="My Field" id="themed-text-field" isactive={toggle}/>
+        <Button label="My Button" id="themed-outline-button"/>
+        <Toggle label="My Toggle" />
+      {/* </div> */}
       <Footer/>
     </div>
   );
