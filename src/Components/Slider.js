@@ -7,10 +7,10 @@ function Slider({slide, imageno, nox, slideUpdate, toggle, myslide, slide_width}
 
   const mypics = useContext(SlideContext)
   // Calculate the total number of slides
-  // const totalSlides = slides.length;
+   const totalSlides = slides.length;
 
   // Calculate the index of the currently displayed slide
-  const currentIndex = imageno//(imageno % (totalSlides+1));
+  const currentIndex = imageno//(imageno % (totalSlides+5));
 
   const newslide = mypics.map((pic, index) => ({
     ...pic,
@@ -18,8 +18,6 @@ function Slider({slide, imageno, nox, slideUpdate, toggle, myslide, slide_width}
   }));
   
   console.log(newslide)
-
-  // ((toggle===false) && (e.target.id <= slide.id-5))
     
   return (
     
@@ -28,16 +26,16 @@ function Slider({slide, imageno, nox, slideUpdate, toggle, myslide, slide_width}
       
       
       {newslide.map((slide, index) => (
-        <div key={slide.id} id={slide.id} className="slide_item" onTransitionEnd={(e)=>{slideUpdate(newslide, toggle, e.target.id)}} 
+        <div key={slide.id} id={slide.id} className="slide_item" onTransitionEnd={(e)=>{slideUpdate(e, currentIndex)}} 
         style={((toggle===false) && (index>=currentIndex-5))?{
           transform: `translateX(${(currentIndex) * -100}%)`, // Translate based on currentIndex
           transition: 'transform 1.5s ease',  // Add transition for smoother animation
          }:
-        {transform: `translateX(${currentIndex * 0}%)`, // Translate based on currentIndex
+        {transform: `translateX(${currentIndex * 100}%)`,// Translate based on currentIndex
         transition: 'transform 1.5s ease', // Add transition for smoother animation
       }}>
           {/* <h2>{slide_width}</h2> */}
-          <h1>{slide.id}</h1>
+          {/* <h1>{newslide.length}</h1> */}
           <img key={index} id={index+1} className="slide_img" 
           src={slide.pic} alt={`Slide ${index + 1}`} />
           <h1>{mypics.length}</h1>
