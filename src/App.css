@@ -509,6 +509,8 @@ h2, h3, .author_description{
   line-height: 1.25rem;
 }
 
+
+
 @media only screen and (min-width: 458px) and (max-width: 720px){
   .community_header{
     background: linear-gradient(180deg, rgba(150, 50, 0.5, 0.5), rgba(340, 70, 50, 0.5), rgba(150, 50, 0.5, 0.5));
@@ -628,3 +630,15 @@ button{
    
   }
 }
+
+/* .example--themed-form-field-sizes {
+  --rui-FormField--box--medium__height: 5rem;
+  --rui-FormField--check__input__size: 1rem;
+  --rui-FormField--box--medium__width: 12rem;
+  --rui-FormField--box--medium__label__width: 20rem;
+  --rui-FormField--box__border-radius: 50px;
+  --rui-FormField--box--outline--hover__box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.9);
+  --rui-FormField--box--medium__padding-x: 1.25rem;
+  --rui-FormField--box__label__font-size: 24px;
+
+  /* width: var(--rui-FormField--check__input__size); */
