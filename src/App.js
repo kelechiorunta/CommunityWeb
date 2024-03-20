@@ -92,8 +92,10 @@ function App() {
     const AddSlide = (id_slide) =>{ 
       
       setSlideLeft(false)
+      
         // setSlidepics(prev=>([...[...prev].filter(i=>{return i.pic !== slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}), {id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide-1 % (slides.length)) : id_slide-1].pic}]))
         setSlidepics(prev=>([...prev, {id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide % (slides.length)) : id_slide].pic}]))
+        // setSlidepics(prev=>([...prev.filter(i=>{return i.id>id_slide}), ....filter(i=>{return i.id<id_slide})]))//{id: id_slide, pic: slides[(id_slide >= slides.length)?( id_slide % (slides.length)) : id_slide].pic}]))
   
       console.log(slidepics)
     }
@@ -110,7 +112,7 @@ function App() {
       
     }
     
-    const updateSlide = (mySlide, bool, item) =>{
+    const updateSlide = (e, indexNo) =>{
       
       // const modifySlide = mySlide.filter(i=>{
       //   return (i.id !== id_slide)
@@ -118,7 +120,15 @@ function App() {
 
       // ((toggle===false) && (e.target.id <= slide.id-5))
 
-      setSlidepics(prev=>([...prev, ...mySlide.filter(i=>{return ((bool===false) && (item <= i.id - 5))})]))
+      // if (e.target.id-1 < indexNo){
+      //    e.target.style.position='absolute';
+      //    e.target.style.display='none';
+      //    e.target.remove();
+      //   }
+
+        console.log(slidepics.length)
+      // setSlidepics(([...SlideArr.slice(sliceno)]))
+      // console.log(slidepics)
 
       // setSlidepics([...modifySlide])
       //  AddSlide(id_slide)
